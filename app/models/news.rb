@@ -1,4 +1,6 @@
 class News < ApplicationRecord
+  has_rich_text :body
+
   mount_uploader :news_image, NewsImageUploader
 
   validates :title, presence: true, length: { maximum: 20 }
