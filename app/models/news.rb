@@ -1,10 +1,10 @@
 class News < ApplicationRecord
-  has_rich_text :content
+  has_rich_text :body
 
   mount_uploader :news_image, NewsImageUploader
 
   validates :title, presence: true, length: { maximum: 20 }
-  # validates :body, presence: true, length: { maximum: 5000 }
+  validates :body, presence: true, length: { maximum: 5000 }
   validates :category, presence: true
 
   enum category: {
