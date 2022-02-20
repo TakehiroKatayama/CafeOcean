@@ -8,7 +8,11 @@
           <%= image_tag @news.news_image.url, class: "card-img-top img-fluid rounded" %>
         </div>
         <div class="body m-3 m-md-5">
-          <p><%= simple_format @news.body%></p>
+          <% if @news.body.present? %>
+            <p><%= simple_format @news.body %></p>
+          <% elsif @news.content.present? %>
+            <p><%= @news.content %></p>
+          <% end %>
         </div>
       </div>
       <%= render "arrows" %>
