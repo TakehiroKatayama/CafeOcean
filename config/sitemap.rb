@@ -11,6 +11,6 @@ SitemapGenerator::Sitemap.create do
   add login_path
 
   News.all.find_each do |news|
-    add news_path(news), changefreq: 'monthly', lastmod: article.updated_at
+    add news_path(news), changefreq: 'monthly', lastmod: news.updated_at
   end
 end
