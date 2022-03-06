@@ -36,6 +36,7 @@ gem 'ransack'
 gem 'simple_calendar'
 gem 'actiontext'
 gem 'sitemap_generator'
+gem 'social-share-button'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
