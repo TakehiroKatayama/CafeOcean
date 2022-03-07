@@ -17,6 +17,7 @@
             <p><%= @news.content %></p>
           <% end %>
         </div>
+        <%= social_share_button_tag(@news.title) %>
       </div>
       <%= render "arrows" %>
     </div>
