@@ -1,7 +1,17 @@
-<%= form_with model: @capacity, url: admin_capacity_path(@capacity), local: true do |f| %>
-  <%= render '/admin/shared/error_messages', object: f.object %>
-  <div class="form-group">
-    <%= f.select :status, Capacity.statuses.invert, {}, {class: "form-control", required: true} %>
+<div class="row">
+  <div class="col-12 mb-3">
+    <%= form_with model: @capacity, url: admin_capacity_path(@capacity), local: true do |f| %>
+      <%= render '/admin/shared/error_messages', object: f.object %>
+      <div class="row">
+        <div class="form-inline align-items-right mx-auto">
+          <div class="col-auto">
+            <%= f.select :status, Capacity.statuses_i18n.invert, {}, {class: "form-control", required: true} %>
+          </div>
+          <div class="col-auto">
+            <%= f.submit "変更", class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <%= f.submit "変更", class: "btn btn-primary" %>
-<% end %>
+</div>

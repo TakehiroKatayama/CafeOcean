@@ -12,6 +12,11 @@ ja:
         cake: 'Sweats'
         wholecake: 'WholeCake'
         oters: 'Others'
+    capacity:
+      status:
+        empty: '空席'
+        full: '満席'
+        closed: '休業'
     reservation:
       reservation_status:
         visiting: '来店予約'
