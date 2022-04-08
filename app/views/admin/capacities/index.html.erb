@@ -18,7 +18,9 @@
               <%= capacity.reservations.count%>件
             <% end%>
           </p>
-          <%= capacity.status_i18n%>
+          <div class="badge <%= capacity.status%>">
+            <%= capacity.status_i18n%>
+          </div>
         <% end %>
       <% end %>
     </div>
