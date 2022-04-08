@@ -7,6 +7,9 @@
       <%= month_calendar events: @capacities do |date, capacities| %>
         <%= date.day %>
         <% capacities.each do |capacity| %>
+          <div class="badge <%= capacity.status%>">
+            <%= capacity.status_i18n%>
+          </div>
           <p class="text-nowrap">
             席数 : 
             <%= link_to edit_admin_capacity_path(capacity) do%>
@@ -18,9 +21,6 @@
               <%= capacity.reservations.count%>件
             <% end%>
           </p>
-          <div class="badge <%= capacity.status%>">
-            <%= capacity.status_i18n%>
-          </div>
         <% end %>
       <% end %>
     </div>
