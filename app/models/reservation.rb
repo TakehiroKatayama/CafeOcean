@@ -16,7 +16,7 @@ class Reservation < ApplicationRecord
   validate :date_before_today
   # validate :start_time_not_sunday
   # validate :start_time_not_monday
-  validate :closed
+  validate :capacity_status
 
   enum visiting_time: {
     '11:00': 0,
@@ -46,8 +46,13 @@ class Reservation < ApplicationRecord
   #   errors.add(:start_time, 'は定休日(月曜日・日曜日)以外を選択してください') if capacity.start_time.monday?
   # end
 
-  def closed
-    errors.add(:start_time, 'は休業日です') if capacity.status == 'closed'
+  def capacity_status
+    case capacity.status
+    when 'closed'
+      errors.add(:start_time, 'は休業日です')
+    when 'full'
+      errors.add(:start_time, 'は満席です')
+    end
   end
 
   # 席数から予約人数をマイナスする
