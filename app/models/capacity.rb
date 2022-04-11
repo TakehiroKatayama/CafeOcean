@@ -8,4 +8,8 @@ class Capacity < ApplicationRecord
     full: 1,
     closed: 2
   }
+
+  def full?
+    remaining_seat.zero? ? update!(status: 'full') : update!(status: 'vacancy')
+  end
 end

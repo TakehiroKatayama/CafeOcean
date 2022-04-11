@@ -13,6 +13,7 @@ class Admin::CapacitiesController < Admin::BaseController
 
   def update
     if @capacity.update(capacity_params)
+      @capacity.full?
       redirect_to admin_capacities_path, success: '席数を更新しました'
     else
       flash.now[:danger] = '席数を更新できませんでした'
