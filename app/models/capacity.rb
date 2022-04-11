@@ -4,7 +4,7 @@ class Capacity < ApplicationRecord
   validates :remaining_seat, numericality: { greater_than_or_equal_to: 0 }
 
   enum status: {
-    empty: 0,
+    vacancy: 0,
     full: 1,
     closed: 2
   }
