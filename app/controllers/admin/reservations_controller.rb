@@ -29,6 +29,7 @@ class Admin::ReservationsController < Admin::BaseController
   def update
     Reservation.transaction do
       @reservation.capacity.update!(remaining_seat: @reservation.increased_capacity)
+      @reservation.vacancy?
       @reservation.update!(reservation_params.merge(capacity_id: @capacity_id))
       @reservation.capacity.update!(remaining_seat: @reservation.decreased_capacity)
       @reservation.full_capacity?
@@ -42,6 +43,7 @@ class Admin::ReservationsController < Admin::BaseController
   def destroy
     Reservation.transaction do
       @reservation.capacity.update!(remaining_seat: @reservation.increased_capacity)
+      @reservation.vacancy?
       @reservation.destroy!
     end
     redirect_to admin_reservations_path, success: '予約をを削除しました'
@@ -50,6 +52,7 @@ class Admin::ReservationsController < Admin::BaseController
   def cancel
     Reservation.transaction do
       @reservation.capacity.update!(remaining_seat: @reservation.increased_capacity)
+      @reservation.vacancy?
       @reservation.update!(reservation_status: 'cancel')
     end
     redirect_to admin_reservations_path, success: 'キャンセルが完了しました'
