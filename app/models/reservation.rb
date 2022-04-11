@@ -55,6 +55,11 @@ class Reservation < ApplicationRecord
     end
   end
 
+  # 席数が０になった際にステータスを満席に更新する
+  def full_capacity?
+    capacity.update!(status: 'full') if capacity.remaining_seat.zero?
+  end
+
   # 席数から予約人数をマイナスする
   def decreased_capacity
     capacity.remaining_seat - number_of_people

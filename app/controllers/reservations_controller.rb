@@ -21,10 +21,10 @@ class ReservationsController < ApplicationController
     Reservation.transaction do
       @reservation = Reservation.create!(reservation_params)
       @reservation.capacity.update!(remaining_seat: @reservation.decreased_capacity)
-      @reservation.capacity.update!(status: 'full') if @reservation.capacity.remaining_seat.zero?
+      @reservation.full_capacity?
       ReservationMailer.email(@reservation).deliver_now
-      redirect_to root_path, success: 'ご予約が完了しました。'
     end
+    redirect_to root_path, success: 'ご予約が完了しました。'
   rescue StandardError
     redirect_to reservations_path, danger: 'ご予約ができませんでした。店舗までご連絡下さい。'
   end
