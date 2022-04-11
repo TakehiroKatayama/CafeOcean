@@ -8,7 +8,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new(reservation_params.merge(capacity_id: capacity_id))
     return unless @reservation.invalid?
 
-    flash.now[:danger] = 'ご来店日は日曜日、月曜日以外の日付を選択して下さい。'
+    flash.now[:danger] = "ご来店日は#{@reservation.capacity.status_i18n}です。"
     render :index
   end
 

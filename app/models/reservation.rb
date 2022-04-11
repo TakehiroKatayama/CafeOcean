@@ -46,6 +46,7 @@ class Reservation < ApplicationRecord
   #   errors.add(:start_time, 'は定休日(月曜日・日曜日)以外を選択してください') if capacity.start_time.monday?
   # end
 
+  # capacityのステータスによってバリデーションを発生させる。
   def capacity_status
     case capacity.status
     when 'closed'
