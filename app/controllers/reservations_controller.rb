@@ -8,7 +8,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new(reservation_params.merge(capacity_id: capacity_id))
     return unless @reservation.invalid?
 
-    flash.now[:danger] = 'ご来店日は日曜日、月曜日以外の日付を選択して下さい。'
+    flash.now[:danger] = "ご来店日は#{@reservation.capacity.status_i18n}です。"
     render :index
   end
 
@@ -21,9 +21,10 @@ class ReservationsController < ApplicationController
     Reservation.transaction do
       @reservation = Reservation.create!(reservation_params)
       @reservation.capacity.update!(remaining_seat: @reservation.decreased_capacity)
+      @reservation.full_capacity?
       ReservationMailer.email(@reservation).deliver_now
-      redirect_to root_path, success: 'ご予約が完了しました。'
     end
+    redirect_to root_path, success: 'ご予約が完了しました。'
   rescue StandardError
     redirect_to reservations_path, danger: 'ご予約ができませんでした。店舗までご連絡下さい。'
   end

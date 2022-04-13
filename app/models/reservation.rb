@@ -14,8 +14,9 @@ class Reservation < ApplicationRecord
   validates :capacity_id, presence: true
 
   validate :date_before_today
-  validate :start_time_not_sunday
-  validate :start_time_not_monday
+  # validate :start_time_not_sunday
+  # validate :start_time_not_monday
+  validate :capacity_status
 
   enum visiting_time: {
     '11:00': 0,
@@ -37,12 +38,32 @@ class Reservation < ApplicationRecord
     errors.add(:start_time, 'は過去の日付は選択できません') if capacity.start_time < Time.zone.today
   end
 
-  def start_time_not_sunday
-    errors.add(:start_time, 'は定休日(月曜日・日曜日)以外を選択してください') if capacity.start_time.sunday?
+  # def start_time_not_sunday
+  #   errors.add(:start_time, 'は定休日(月曜日・日曜日)以外を選択してください') if capacity.start_time.sunday?
+  # end
+
+  # def start_time_not_monday
+  #   errors.add(:start_time, 'は定休日(月曜日・日曜日)以外を選択してください') if capacity.start_time.monday?
+  # end
+
+  # capacityのステータスによってバリデーションを発生させる。
+  def capacity_status
+    case capacity.status
+    when 'closed'
+      errors.add(:start_time, 'は休業日です')
+    when 'full'
+      errors.add(:start_time, 'は満席です')
+    end
   end
 
-  def start_time_not_monday
-    errors.add(:start_time, 'は定休日(月曜日・日曜日)以外を選択してください') if capacity.start_time.monday?
+  # 席数が０になった際にステータスを満席に更新する
+  def full_capacity?
+    capacity.update!(status: 'full') if capacity.remaining_seat.zero?
+  end
+
+  # 席数が０以外になった際にステータスを空席に更新する
+  def vacancy?
+    capacity.update!(status: 'vacancy') if capacity.remaining_seat != 0
   end
 
   # 席数から予約人数をマイナスする
